@@ -1,0 +1,735 @@
+# In[1]:
+
+
+import numpy as np
+import pandas as pd
+
+
+# In[2]:
+
+
+pd.__version__
+
+
+# # DataStructure - Series
+
+# ### convert a list, numpy array, or dictionary to a Series:
+
+# In[3]:
+
+
+labels= ['a','b','c']
+my_list = [10,20,30]
+arr = np.array([10,20,30])
+d = {'a':10 , 'b':20 , 'c':30 }
+
+
+# ## Creating a Series - Using Lists
+
+# In[4]:
+
+
+pd.Series(data = my_list )
+
+
+# In[5]:
+
+
+pd.Series(data = my_list , index = labels)
+
+
+# In[6]:
+
+
+pd.Series( my_list , labels)
+
+
+# ## Creating a Series - NumPy Arrays
+
+# In[7]:
+
+
+pd.Series(arr)
+
+
+# In[8]:
+
+
+pd.Series(data = arr , index = labels)
+
+
+# In[9]:
+
+
+pd.Series( arr , labels)
+
+
+# ## Creating a Series - Dictionary
+
+# In[10]:
+
+
+pd.Series(d)
+
+
+# # Operations based off of index
+
+# In[11]:
+
+
+my_series1 = pd.Series([1,2,3,4,5],index=['usa','italy','iran','japan','china'])
+my_series1
+
+
+# In[12]:
+
+
+my_series2 = pd.Series([1,6,8,9,2],index=['usa','italy','australia','china','iran'])
+my_series2
+
+
+# In[13]:
+
+
+my_series1 + my_series2
+
+
+# # Show index and value
+
+# In[14]:
+
+
+my_series = pd.Series([1, 2, 3,4,5],index=['row1','row2','row3','row4','row5'])
+my_series
+
+
+# In[15]:
+
+
+my_series.index
+
+
+# In[16]:
+
+
+my_series.values
+
+
+# ## Select index
+
+# In[17]:
+
+
+my_series.row2
+
+
+# In[18]:
+
+
+my_series["row2"]
+
+
+# ## Condition in Series
+
+# In[19]:
+
+
+my_series[my_series>3]
+
+
+# # DataStructure - DataFrame
+
+# ## Create DataFrame with Array
+
+# In[20]:
+
+
+import numpy as np
+my_array = np.array([[1 ,5 ,9 ,13],[2 ,6 ,10 ,14],[3 ,7 ,11 ,15],[4 ,8 ,12 ,16]])
+my_df = pd.DataFrame(my_array,index=['row1' ,'row2' ,'row3' ,'row4'],columns=['col1' ,'col2' ,'col3' ,'col4'])
+my_df
+
+
+# ## Create DataFrame with Dictionary
+
+# In[21]:
+
+
+my_dict = {'col1':[1,2,3,4],'col2':[5,6,7,8],'col3':[9,10,11,12],'col4':[13,14,15,19]}
+my_df = pd.DataFrame(my_dict, index=['row1','row2','row3','row4'])
+my_df
+
+
+# ## Show index and column and value
+
+# In[22]:
+
+
+my_df.index
+
+
+# In[23]:
+
+
+my_df.columns
+
+
+# In[24]:
+
+
+my_df.values
+
+
+# In[25]:
+
+
+from numpy.random import randn
+# np.random.randn(20)
+
+
+# In[26]:
+
+
+df = pd.DataFrame(randn(5,4), index='A B C D E'.split(),columns='W X Y Z'.split())
+df
+
+
+# In[27]:
+
+
+df['W']
+
+
+# In[28]:
+
+
+df[['W','Z']]
+
+
+# In[29]:
+
+
+df.W
+
+
+# ### DataFrame Columns are just Series
+
+# In[30]:
+
+
+type(df["W"])
+
+
+# In[31]:
+
+
+type(df)
+
+
+# # Creating a new column
+
+# In[32]:
+
+
+df
+
+
+# In[33]:
+
+
+df['new'] = df['W'] + df['Y']
+
+
+# In[34]:
+
+
+df
+
+
+# # Removing Columns
+
+# In[35]:
+
+
+df.drop('new', axis=1)
+
+
+# In[36]:
+
+
+df
+
+
+# In[37]:
+
+
+df.drop('new', axis=1, inplace=True)
+
+
+# In[38]:
+
+
+df
+
+
+# # Drop rows
+
+# In[39]:
+
+
+df.drop('E', axis=0, inplace=True)
+
+
+# In[40]:
+
+
+df
+
+
+# # Selecting Rows
+
+# In[41]:
+
+
+df
+
+
+# In[42]:
+
+
+df.loc['A']
+
+
+# # Select based off of position
+
+# In[43]:
+
+
+df
+
+
+# In[44]:
+
+
+df.iloc[2]
+
+
+# # Selecting subset of rows and columns
+
+# In[45]:
+
+
+df.loc['B','Y']
+
+
+# In[46]:
+
+
+df.loc[['A','B'],['W','Y']]
+
+
+# # Conditional Selection
+
+# In[47]:
+
+
+df
+
+
+# In[48]:
+
+
+df>0
+
+
+# In[49]:
+
+
+df[df>0]
+
+
+# In[50]:
+
+
+df[df['W']>0]
+
+
+# In[51]:
+
+
+df[df['W']>0] ['Y']
+
+
+# In[52]:
+
+
+df[df['W']>0][['Y','X']]
+
+
+# # For two conditions use | and & 
+
+# In[53]:
+
+
+df[(df['W']<0) & (df['Y']>0)]
+
+
+# In[54]:
+
+
+df[(df['W']<0) | (df['Y']<0)]
+
+
+# # Reset index
+
+# In[55]:
+
+
+df
+
+
+# In[56]:
+
+
+df.reset_index()
+
+
+# # Set index
+
+# In[57]:
+
+
+newind = 'CA NY WY OR'.split()
+newind
+
+
+# In[58]:
+
+
+df
+
+
+# In[59]:
+
+
+df['States'] = newind
+
+
+# In[60]:
+
+
+df
+
+
+# In[61]:
+
+
+df.set_index('States')
+
+
+# In[62]:
+
+
+df
+
+
+# In[63]:
+
+
+df.set_index('States', inplace=True)
+
+
+# In[64]:
+
+
+df
+
+
+# ## Edit a DataFrame
+
+# In[65]:
+
+
+import numpy as np
+import pandas as pd
+my_array = np.array([[1 ,5 ,9 ,13],[2 ,6 ,10 ,14],[3 ,7 ,11 ,15],[4 ,8 ,12 ,16]])
+my_df = pd.DataFrame(my_array,index=['row1' ,'row2' ,'row3' ,'row4'],columns=['col1' ,'col2' ,'col3' ,'col4'])
+my_df
+
+
+# In[66]:
+
+
+my_df['col5'] = [20 ,21 ,22 ,23]
+my_df
+
+
+# In[67]:
+
+
+my_df.loc[['row1','row2'],'col1'] = 0
+my_df
+
+
+# # Deleting
+
+# In[68]:
+
+
+my_df.drop('col5',axis=1)
+
+
+# In[69]:
+
+
+my_df.drop('row1',axis=0)
+
+
+# # Renaming
+
+# In[70]:
+
+
+my_df.rename(columns={'col4':'cooool4'})
+
+
+# In[71]:
+
+
+my_df.rename(index={'row1':'row_one'})
+
+
+# ## Replace
+
+# In[72]:
+
+
+my_df.replace({1:100})
+
+
+# # head and tail
+
+# In[73]:
+
+
+df.head()
+
+
+# In[74]:
+
+
+df.tail()
+
+
+# # Apply function on index
+
+# In[75]:
+
+
+df
+
+
+# In[76]:
+
+
+df['W'] = df['W'].apply(lambda x:'{0:3.2f}'.format(x))
+df
+
+
+# # Sorting
+
+# ## sorting index
+
+# In[77]:
+
+
+my_df.sort_index(axis=1,ascending=False)
+
+
+# ## sorting value
+
+# In[78]:
+
+
+my_df.sort_values(by='col1',ascending=False)
+
+
+# # Missing Data
+
+# In[79]:
+
+
+df = pd.DataFrame({ 'A':[1,2,np.nan],
+                    'B':[5,np.nan,np.nan],
+                    'C':[1,2,3]
+                                })
+
+
+# In[80]:
+
+
+df
+
+
+# In[81]:
+
+
+df.dropna()
+
+
+# In[82]:
+
+
+df.dropna(axis=1)
+
+
+# In[83]:
+
+
+df.dropna(thresh=2)
+
+
+# In[84]:
+
+
+df.fillna(value='fill value')
+
+
+# In[85]:
+
+
+df['A'].fillna(value=df['A'].mean())
+
+
+# # Groupby
+
+# In[86]:
+
+
+import pandas as pd
+data={  'Company': ['Google','Google','Microsoft','Microsoft','Facebook','Facebook'],
+        'Person':['Sam','Charlie','Amy','Vanessa','Carl','Sara'],
+        'Sale' : [200,120,340,124,243,350]    
+        }
+
+
+# In[87]:
+
+
+df = pd.DataFrame(data)
+
+
+# In[88]:
+
+
+df
+
+
+# In[89]:
+
+
+by_company = df.groupby('Company')
+
+
+# In[90]:
+
+
+by_company.mean()
+
+
+# In[91]:
+
+
+by_company.max()
+
+
+# In[92]:
+
+
+by_company.min()
+
+
+# In[93]:
+
+
+by_company.count()
+
+
+# In[94]:
+
+
+by_company.describe()
+
+
+# In[95]:
+
+
+by_company.describe().transpose()
+
+
+# # Create DataFrame
+
+# In[96]:
+
+
+df = pd.DataFrame({'Col1':[1,2,3,4],'Col2':[4,5,6,4],'Col3':['a','b','c','d']})
+df
+
+
+# In[97]:
+
+
+df['Col2'].unique()
+
+
+# In[98]:
+
+
+df['Col2'].nunique()
+
+
+# In[99]:
+
+
+df['Col2'].value_counts()
+
+
+# In[100]:
+
+
+new_df = df [(df['Col1']>2) & (df['Col2']==4)]
+new_df
+
+
+# In[101]:
+
+
+def squ(x):
+    return x*2
+
+
+# In[102]:
+
+
+df['Col1'].apply(squ)
+
+
+# In[103]:
+
+
+del df['Col1']
+
+
+# In[104]:
+
+
+df
+
+
+# # Read csv
+
+# In[105]:
+
+
+# df = pd.read_csv('example.csv')
+
